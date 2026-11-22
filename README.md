@@ -50,7 +50,7 @@ It started as a simple experiment but gradually became a full game with levels, 
 
 | Link | What it is |
 |---|---|
-| `https://fonts.googleapis.com` | Google Fonts CDN — loads Orbitron and Inter fonts |
+| `https://fonts.googleapis.com` | Google Fonts CDN - loads Orbitron and Inter fonts |
 | `https://fonts.gstatic.com` | Google Fonts static files CDN |
 
 > **Note:** Tailwind CSS and fonts load from CDN only during development when there is no internet, the fonts will fall back to the system monospace font. In production build (`npm run build`) Tailwind CSS is compiled into a small static file so no CDN needed.
