@@ -14,10 +14,10 @@ It started as a simple experiment but gradually became a full game with levels, 
 
 ## 🎮 How to Play
 
-1. Click any star to select it —> it glows yellow
+1. Click any star to select it - it glows yellow
 2. Click another star to draw a connection between them
 3. Correct connections glow purple and give you points
-4. Wrong connections flash red —> click them again to remove
+4. Wrong connections flash red - click them again to remove
 5. Complete all required connections before the timer runs out
 6. Leftover time gives you bonus points
 
@@ -26,7 +26,7 @@ It started as a simple experiment but gradually became a full game with levels, 
 ## ✨ Features
 
 - 8 real constellations with Greek mythology stories
-- 3 difficulty modes — Easy (90s), Normal (60s), Hard (45s)
+- 3 difficulty modes - Easy (90s), Normal (60s), Hard (45s)
 - Scoring system with time bonus and completion bonus
 - Animated star field background with twinkling effect
 - Particle bursts when you connect or disconnect stars
@@ -124,4 +124,4 @@ npm run build
 
 ---
 
-Made by **Shivanisree N** — built for people who want to learn constellations.🚀
+Made by **Shivanisree N** - built for people who want to learn constellations.🚀
