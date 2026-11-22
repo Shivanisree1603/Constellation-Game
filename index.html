@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Constellation — Space Puzzle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<canvas id="c"></canvas>
+
+<!-- HUD -->
+<div id="ui">
+  <div id="hud" style="display:none">
+    <div class="flex items-center justify-between px-6 py-3"
+         style="background:linear-gradient(to bottom,rgba(3,7,18,.92),transparent)">
+      <div class="flex items-center gap-6">
+        <div>
+          <p class="text-xs font-orbitron tracking-widest text-indigo-400 uppercase mb-0.5">Score</p>
+          <p id="hScore" class="text-2xl font-orbitron font-bold text-white">0</p>
+        </div>
+        <div class="w-px h-10" style="background:rgba(99,102,241,.3)"></div>
+        <div>
+          <p class="text-xs font-orbitron tracking-widest text-purple-400 uppercase mb-0.5">Level</p>
+          <p id="hLevel" class="text-2xl font-orbitron font-bold text-white">1</p>
+        </div>
+      </div>
+      <div class="flex flex-col items-center gap-1.5" style="width:200px">
+        <p id="hName" class="text-xs font-orbitron tracking-widest text-blue-300 uppercase">—</p>
+        <div class="ptrack w-full" style="height:8px"><div id="hBar" class="pfill" style="width:0%"></div></div>
+      </div>
+      <div class="flex items-center gap-6">
+        <div class="text-right">
+          <p class="text-xs font-orbitron tracking-widest text-orange-400 uppercase mb-0.5">Time</p>
+          <p id="hTime" class="text-2xl font-orbitron font-bold text-white">60</p>
+        </div>
+        <div class="w-px h-10" style="background:rgba(99,102,241,.3)"></div>
+        <div class="text-right">
+          <p class="text-xs font-orbitron tracking-widest text-green-400 uppercase mb-0.5">Done</p>
+          <p id="hConn" class="text-2xl font-orbitron font-bold text-white">0/0</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="hint" style="display:none;position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%)">
+    <div class="px-5 py-2 rounded-full text-xs font-orbitron tracking-wide text-blue-300"
+         style="background:rgba(10,15,35,.85);border:1px solid rgba(99,102,241,.3);white-space:nowrap">
+      Select a star · Click another to connect · Click a line to remove it
+    </div>
+  </div>
+</div>
+
+<!-- OVERLAY -->
+<div id="overlay">
+
+  <!-- START -->
+  <div id="sStart" class="card p-10 mx-4 text-center" style="max-width:480px;width:100%">
+    <span class="inline-block mb-4 px-3 py-1 rounded-full text-xs font-orbitron tracking-widest uppercase"
+          style="background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.3);color:#a5b4fc">Space Puzzle</span>
+    <h1 class="text-5xl font-orbitron font-black shimmer-text mb-3">Constellation</h1>
+    <p class="text-sm leading-relaxed mb-8" style="color:rgba(147,197,253,.7)">
+      Connect the stars to recreate ancient constellations.<br>Each level reveals a new pattern from the night sky.
+    </p>
+    <div class="grid grid-cols-3 gap-3 mb-7">
+      <div class="tile p-3 flex flex-col items-center gap-1.5">
+        <span style="font-size:1.5rem">⭐</span>
+        <span class="text-xs font-orbitron text-indigo-300 uppercase">Select</span>
+        <span class="text-xs" style="color:rgba(147,197,253,.5)">Click a star</span>
+      </div>
+      <div class="tile p-3 flex flex-col items-center gap-1.5" style="border-color:rgba(139,92,246,.25)">
+        <span style="font-size:1.5rem">🔗</span>
+        <span class="text-xs font-orbitron text-purple-300 uppercase">Connect</span>
+        <span class="text-xs" style="color:rgba(147,197,253,.5)">Click another</span>
+      </div>
+      <div class="tile p-3 flex flex-col items-center gap-1.5" style="border-color:rgba(236,72,153,.25)">
+        <span style="font-size:1.5rem">🌟</span>
+        <span class="text-xs font-orbitron text-pink-300 uppercase">Complete</span>
+        <span class="text-xs" style="color:rgba(147,197,253,.5)">Fill all lines</span>
+      </div>
+    </div>
+    <div class="mb-6">
+      <p class="text-xs font-orbitron tracking-widest uppercase mb-3" style="color:rgba(148,163,184,.7)">Difficulty</p>
+      <div class="flex gap-3 justify-center">
+        <button id="dEasy"   class="sbtn diff" data-d="easy">Easy</button>
+        <button id="dNormal" class="pbtn diff" data-d="normal">Normal</button>
+        <button id="dHard"   class="sbtn diff" data-d="hard">Hard</button>
+      </div>
+    </div>
+    <div class="mb-7 rounded-xl px-4 py-3 text-left"
+         style="background:rgba(99,102,241,.06);border:1px solid rgba(99,102,241,.15)">
+      <p class="text-xs font-orbitron text-indigo-400 tracking-widest uppercase mb-2">8 Constellations to Chart</p>
+      <p class="text-xs leading-5" style="color:rgba(147,197,253,.6)">
+        Orion · Ursa Major · Cassiopeia · Scorpius · Leo · Cygnus · Perseus · Aquila
+      </p>
+    </div>
+    <button id="btnStart" class="pbtn w-full text-base" style="padding:1rem">✦ Launch Game</button>
+  </div>
+
+  <!-- LEVEL COMPLETE -->
+  <div id="sLC" class="card p-10 mx-4 text-center" style="max-width:440px;width:100%;display:none">
+    <div style="font-size:3rem" class="mb-4">🌌</div>
+    <p class="text-xs font-orbitron tracking-widest text-emerald-400 uppercase mb-1">Constellation Found</p>
+    <h2 id="lcName" class="text-3xl font-orbitron font-bold text-white mb-6"></h2>
+    <div class="grid grid-cols-2 gap-4 mb-6">
+      <div class="tile p-4">
+        <p class="text-xs font-orbitron text-indigo-400 uppercase tracking-widest mb-1">Total Score</p>
+        <p id="lcScore" class="text-3xl font-orbitron font-bold text-white"></p>
+      </div>
+      <div class="tile p-4" style="border-color:rgba(139,92,246,.25)">
+        <p class="text-xs font-orbitron text-purple-400 uppercase tracking-widest mb-1">Time Left</p>
+        <p id="lcTime" class="text-3xl font-orbitron font-bold text-white"></p>
+      </div>
+    </div>
+    <blockquote class="text-sm leading-relaxed mb-8 italic text-left"
+                style="color:rgba(147,197,253,.8);border-left:2px solid rgba(99,102,241,.4);padding-left:1rem">
+      <span id="lcMyth"></span>
+    </blockquote>
+    <button id="btnNext" class="pbtn w-full" style="padding:.85rem">Next Constellation →</button>
+  </div>
+
+  <!-- GAME OVER -->
+  <div id="sGO" class="card p-10 mx-4 text-center" style="max-width:440px;width:100%;display:none">
+    <div style="font-size:3rem" class="mb-4">💫</div>
+    <p class="text-xs font-orbitron tracking-widest text-red-400 uppercase mb-1">Time Expired</p>
+    <h2 class="text-3xl font-orbitron font-bold text-white mb-6">Game Over</h2>
+    <div class="grid grid-cols-2 gap-4 mb-6">
+      <div class="tile p-4">
+        <p class="text-xs font-orbitron text-indigo-400 uppercase tracking-widest mb-1">Final Score</p>
+        <p id="goScore" class="text-3xl font-orbitron font-bold text-white"></p>
+      </div>
+      <div class="tile p-4" style="border-color:rgba(139,92,246,.25)">
+        <p class="text-xs font-orbitron text-purple-400 uppercase tracking-widest mb-1">Level Reached</p>
+        <p id="goLevel" class="text-3xl font-orbitron font-bold text-white"></p>
+      </div>
+    </div>
+    <div class="rounded-xl px-4 py-3 mb-6 text-left"
+         style="background:rgba(99,102,241,.06);border:1px solid rgba(99,102,241,.15)">
+      <p class="text-xs font-orbitron text-slate-400 uppercase tracking-widest mb-2">Constellations Found</p>
+      <p id="goList" class="text-sm" style="color:rgba(147,197,253,.8)"></p>
+    </div>
+    <div class="flex gap-3">
+      <button id="btnRestart" class="pbtn flex-1" style="padding:.85rem">Play Again</button>
+      <button id="btnMenu"    class="sbtn flex-1" style="padding:.85rem">Menu</button>
+    </div>
+  </div>
+
+  <!-- WIN -->
+  <div id="sWin" class="card p-10 mx-4 text-center" style="max-width:440px;width:100%;display:none">
+    <div style="font-size:3.5rem" class="mb-4">🏆</div>
+    <p class="text-xs font-orbitron tracking-widest text-yellow-400 uppercase mb-2">Master Navigator</p>
+    <h2 class="text-3xl font-orbitron font-bold text-white mb-2">You Mapped the Sky!</h2>
+    <p class="text-sm mb-7" style="color:rgba(147,197,253,.6)">All 8 constellations discovered</p>
+    <div class="rounded-xl p-6 mb-7"
+         style="background:rgba(234,179,8,.08);border:1px solid rgba(234,179,8,.28)">
+      <p class="text-xs font-orbitron text-yellow-400 uppercase tracking-widest mb-2">Total Score</p>
+      <p id="winScore" class="font-orbitron font-black text-yellow-300" style="font-size:3rem"></p>
+    </div>
+    <button id="btnWinRestart" class="pbtn w-full" style="padding:.85rem">✦ Chart Again</button>
+  </div>
+
+</div>
+
+<!-- Vite loads and compiles TypeScript automatically -->
+<script type="module" src="/src/main.ts"></script>
+</body>
+</html>

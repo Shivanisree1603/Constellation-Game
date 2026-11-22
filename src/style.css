@@ -1,0 +1,141 @@
+/*
+  This file is needed to make Tailwind work with Vite.
+  The three @tailwind lines below tell PostCSS to generate
+  all the Tailwind utility classes (flex, text-white, etc).
+  Without this file, Tailwind won't produce any CSS at all.
+
+  I also added a few custom styles here for things that
+  Tailwind doesn't have built-in like shimmer animation,
+  the glass card effect, and the custom buttons.
+*/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* basic page reset */
+*, *::before, *::after { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #030712;
+  font-family: "Inter", sans-serif;
+}
+
+/* canvas fills the whole screen */
+#c {
+  display: block;
+  position: fixed;
+  inset: 0;
+}
+
+/* hud sits on top of canvas */
+#ui {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* dark overlay behind the popup cards */
+#overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(3, 7, 18, 0.88);
+  backdrop-filter: blur(6px);
+}
+
+/* glass style card - tailwind doesn't have this built in */
+.card {
+  background: linear-gradient(135deg, rgba(15,23,42,0.97), rgba(26,20,64,0.97));
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  box-shadow: 0 0 80px rgba(99, 102, 241, 0.1), 0 24px 60px rgba(0,0,0,0.6);
+  border-radius: 1.25rem;
+}
+
+/* text that slowly changes color - tailwind cant do this */
+.shimmer-text {
+  background: linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6, #60a5fa);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+}
+
+/* main purple button */
+.pbtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  border: 1px solid rgba(167, 139, 250, 0.35);
+  color: #fff;
+  border-radius: 0.75rem;
+  font-family: "Orbitron", monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+  outline: none;
+  padding: 0.7rem 1.75rem;
+}
+.pbtn:hover {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  box-shadow: 0 0 24px rgba(139, 92, 246, 0.5);
+  transform: translateY(-1px);
+}
+
+/* outline button for secondary actions */
+.sbtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid rgba(99, 102, 241, 0.38);
+  color: #a5b4fc;
+  border-radius: 0.75rem;
+  font-family: "Orbitron", monospace;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+  outline: none;
+  padding: 0.65rem 1.5rem;
+}
+.sbtn:hover {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: rgba(167, 139, 250, 0.55);
+  color: #c4b5fd;
+}
+
+/* stat box used inside cards */
+.tile {
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 0.875rem;
+}
+
+/* progress bar track and fill */
+.ptrack {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.pfill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #4f46e5, #7c3aed, #ec4899);
+  transition: width 0.4s ease;
+}
