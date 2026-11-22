@@ -12,18 +12,6 @@ It started as a simple experiment but gradually became a full game with levels, 
 
 ---
 
-## 📸 Screenshots
-
-| Main Menu | Star Canvas |
-|---|---|
-| ![Main Menu](screenshots/MainMenu.png) | ![Star Canvas](screenshots/SkyCanvas.png) |
-
-| Connecting Stars | Level Complete |
-|---|---|
-| ![Connecting Stars](screenshots/ConnectDots.png) | ![Next Level](screenshots/NextLevel.png) |
-
----
-
 ## 🎮 How to Play
 
 1. Click any star to select it - it glows yellow
@@ -118,6 +106,18 @@ npm run build
 
 ---
 
+## 📸 Screenshots
+
+| Main Menu | Star Canvas |
+|---|---|
+| ![Main Menu](screenshots/MainMenu.png) | ![Star Canvas](screenshots/SkyCanvas.png) |
+
+| Connecting Stars | Level Complete |
+|---|---|
+| ![Connecting Stars](screenshots/ConnectDots.png) | ![Next Level](screenshots/NextLevel.png) |
+
+---
+
 ## 🌟 The 8 Constellations
 
 | Constellation | Mythology |
@@ -133,4 +133,6 @@ npm run build
 
 ---
 
-Made by **Shivanisree N** - built for people who want to learn constellations.🚀
+Made with ⭐ by **Shivanisree N**
+
+Built for anyone curious about stars, constellations, and the stories behind them. 🌌
