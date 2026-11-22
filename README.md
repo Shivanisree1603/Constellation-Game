@@ -9,6 +9,7 @@ A browser game where you connect stars to recreate ancient constellations from G
 II enjoy learning about stars and Greek mythology, so I thought it would be fun to build a small constellation game. Through this project, I wanted to learn more about canvas drawing, code modules, Tailwind CSS, and Vite.
 
 It started as a simple experiment but gradually became a full game with levels, scoring, animations, and multiple screens.
+
 ---
 
 ## 🎮 How to Play
