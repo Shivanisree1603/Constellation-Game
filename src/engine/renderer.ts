@@ -106,6 +106,35 @@ export function renderFrame(
     state.flash -= 2;
   }
 
+  // hint glow — pulse a gold line on the suggested connection
+  if (state.hintKey && state.hintTimer > 0) {
+    const [ha, hb] = state.hintKey.split(",").map(Number);
+    const hsa = state.stars[ha], hsb = state.stars[hb];
+    if (hsa && hsb) {
+      const alpha = (state.hintTimer / 180) * (0.5 + 0.5 * Math.sin(t * 0.15));
+      ctx.beginPath();
+      ctx.moveTo(hsa.x, hsa.y);
+      ctx.lineTo(hsb.x, hsb.y);
+      ctx.strokeStyle = `rgba(255,210,60,${alpha.toFixed(3)})`;
+      ctx.lineWidth = 5;
+      ctx.setLineDash([10, 6]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      // soft glow rings on both endpoint stars
+      for (const hs of [hsa, hsb]) {
+        const gr = ctx.createRadialGradient(hs.x, hs.y, 0, hs.x, hs.y, 32);
+        gr.addColorStop(0, `rgba(255,210,60,${(alpha * 0.6).toFixed(3)})`);
+        gr.addColorStop(1, "rgba(255,210,60,0)");
+        ctx.beginPath();
+        ctx.arc(hs.x, hs.y, 32, 0, Math.PI * 2);
+        ctx.fillStyle = gr;
+        ctx.fill();
+      }
+      state.hintTimer--;
+      if (state.hintTimer <= 0) state.hintKey = null;
+    }
+  }
+
   // draw the lines between stars
   state.conns.forEach(key => {
     const [a, b] = key.split(",").map(Number);

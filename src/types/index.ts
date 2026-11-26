@@ -64,4 +64,7 @@ export interface GameState {
   bg: BgStar[];
   flash: number;
   mouse: { x: number; y: number } | null;
+  hints: number;         // how many hints left
+  hintKey: string | null; // connection key currently being highlighted
+  hintTimer: number;     // frames left to show the hint glow
 }

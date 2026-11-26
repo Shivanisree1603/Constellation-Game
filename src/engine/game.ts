@@ -25,6 +25,9 @@ export function loadLevel(state: GameState, W: number, H: number): void {
   state.flash = 0;
   state.timeLeft = cfg.time;
   state.need = state.c.conns.map(([a, b]) => `${Math.min(a, b)},${Math.max(a, b)}`);
+  state.hints = 3;
+  state.hintKey = null;
+  state.hintTimer = 0;
   placeStars(state, W, H);
 }
 

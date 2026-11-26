@@ -76,6 +76,10 @@ function beginPlay(): void {
   showHUD(true);
   hideOverlay();
   startTimer();
+  // reset hint button for new level
+  el("hHints").textContent = String(G.hints);
+  (el("btnHint") as HTMLButtonElement).disabled = false;
+  el("btnHint").style.opacity = "1";
 }
 
 function onLevelComplete(): void {
@@ -104,6 +108,25 @@ function doWin(): void {
   showScreen("sWin");
 }
 
+function useHint(): void {
+  if (G.screen !== "play" || G.hints <= 0) return;
+  // find connections not done yet
+  const remaining = G.need.filter(k => !G.done.has(k));
+  if (remaining.length === 0) return;
+  // pick one at random
+  const pick = remaining[Math.floor(Math.random() * remaining.length)];
+  G.hintKey = pick;
+  G.hintTimer = 180; // show for 3 seconds at 60fps
+  G.hints--;
+  G.timeLeft = Math.max(1, G.timeLeft - 5); // -5 seconds as penalty
+  refreshHUD();
+  el("hHints").textContent = String(G.hints);
+  if (G.hints <= 0) {
+    (el("btnHint") as HTMLButtonElement).disabled = true;
+    el("btnHint").style.opacity = "0.4";
+  }
+}
+
 // connect all the buttons to their functions
 el("btnStart").addEventListener("click", () => { G.score = 0; G.level = 0; beginPlay(); });
 
@@ -121,6 +144,8 @@ el("btnMenu").addEventListener("click", () => {
   showHUD(false);
   showScreen("sStart");
 });
+
+el("btnHint").addEventListener("click", useHint);
 
 el("btnWinRestart").addEventListener("click", () => {
   G.score = 0; G.level = 0;

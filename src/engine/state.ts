@@ -18,5 +18,8 @@ export function createState(): GameState {
     bg: [],
     flash: 0,
     mouse: null,
+    hints: 3,
+    hintKey: null,
+    hintTimer: 0,
   };
 }
